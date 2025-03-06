@@ -1,51 +1,25 @@
-/* Profile Container */
-/* ✅ Profile Container with Custom Scrollbar */
+/* ✅ Profile Container */
 .profile-container {
   width: 100%;
   max-width: 500px;
-  overflow-y: auto; /* ✅ Keep scrolling enabled */
+  overflow-y: auto;
   height: 100vh;
   margin: auto;
   text-align: center;
-  padding: 20px;
   background: #1e1e1e;
-  padding-bottom: 180px;
+  padding-bottom: 185px !important;
   margin-top: 10px;
   color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* ✅ Custom Black-Themed Scrollbar (Chrome, Safari, Edge) */
-.profile-container::-webkit-scrollbar {
-  width: 8px; /* Scrollbar width */
-}
-
-.profile-container::-webkit-scrollbar-track {
-  background: #121212; /* Dark track */
-  border-radius: 10px;
-}
-
-.profile-container::-webkit-scrollbar-thumb {
-  background: #333; /* Dark grey thumb */
-  border-radius: 10px;
-  transition: background 0.3s;
-}
-
-.profile-container::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Slightly lighter on hover */
-}
-
-/* ✅ Custom Scrollbar for Firefox */
-.profile-container {
-  scrollbar-width: thin;
-  scrollbar-color: #333 #121212;
-}
-/* Profile Picture */
+/* ✅ Profile Picture Section */
 .profile-pic-label {
   display: block;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
+  margin-bottom: 15px;
 }
 
 .profile-pic-label:hover {
@@ -53,20 +27,21 @@
 }
 
 .profile-pic {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-bottom: 15px;
+  width: 120px;
   margin-top: 15px;
+  height: 120px;
+  border-radius: 50%;
   object-fit: cover;
+  border: 3px solid #ff9800;
 }
 
+/* ✅ Hidden Input (To hide the file input field) */
 .hidden-input {
-  display: none;
+  display: none !important; /* Ensures the input is completely hidden */
 }
 
-/* Input Fields */
-input {
+/* ✅ Bio Section */
+input[type="text"] {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
@@ -74,9 +49,10 @@ input {
   border: none;
   color: white;
   border-radius: 5px;
+  font-size: 16px;
 }
 
-/* Buttons */
+/* ✅ Buttons */
 button {
   background: #ff9800;
   border: none;
@@ -86,6 +62,7 @@ button {
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s ease-in-out;
+  margin: 10px 0 10px 0;
 }
 
 button:hover {
@@ -93,12 +70,10 @@ button:hover {
   color: white;
 }
 
+/* ✅ Meme Grid */
 .meme-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(150px, 1fr)
-  ); /* Responsive grid */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 8px;
   padding: 20px 0;
 }
@@ -113,16 +88,15 @@ button:hover {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-
-  padding: 5px; /* Padding to prevent tight cropping */
+  padding: 5px;
 }
 
 /* ✅ Fix Cropping Issue */
 .meme-card img {
   width: 100%;
   max-height: 100%;
-  object-fit: contain; /* ✅ Prevents cropping */
-  background-color: #2a2a2a; /* ✅ Adds a background to fill empty space */
+  object-fit: contain; /* Prevents cropping */
+  background-color: #2a2a2a;
   border-radius: 5px;
 }
 
@@ -131,6 +105,8 @@ button:hover {
   font-size: 14px;
   text-align: center;
 }
+
+/* ✅ Login Message */
 .login-message {
   text-align: center;
   padding: 20px;
@@ -155,16 +131,50 @@ button:hover {
 
 /* ✅ Mobile Responsive */
 @media (max-width: 600px) {
+  .profile-container {
+    width: 95%;
+    padding: 15px;
+    padding-bottom: 150px;
+  }
+
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+  }
+
+  input[type="text"] {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px 14px;
+  }
+
   .meme-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2-column layout on mobile */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 400px) {
   .meme-grid {
-    grid-template-columns: repeat(
-      1,
-      1fr
-    ); /* 1-column layout on very small screens */
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .profile-container {
+    padding-bottom: 100px;
+  }
+
+  .profile-pic {
+    width: 90px;
+    height: 90px;
+  }
+
+  input[type="text"] {
+    padding: 10px;
+  }
+
+  button {
+    padding: 8px 12px;
   }
 }

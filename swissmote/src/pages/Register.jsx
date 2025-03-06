@@ -22,19 +22,16 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "https://memeverse-kihy.vercel.app/api/auth/register",
-        {
-          username,
-          email,
-          password,
-        }
+        "http://localhost:5000/api/auth/register", // ✅ Fixed API URL
+        { username, email, password }
       );
 
+      // ✅ Store token and user details
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
       alert("Registration Successful!");
-      navigate("/profile");
+      navigate("/profile"); // ✅ Redirect to profile after registration
     } catch (err) {
       console.error("Registration failed:", err);
       setError(err.response?.data || "Something went wrong.");

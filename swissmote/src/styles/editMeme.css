@@ -1,43 +1,62 @@
+/* ✅ Edit Meme Container */
 .edit-meme-container {
-  width: 100%;
   max-width: 500px;
-  margin: auto;
-  text-align: center;
-  padding: 20px;
+  margin: 50px auto;
   background: #1e1e1e;
-  color: white;
+  text-align: center;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: white;
 }
 
+/* ✅ Meme Image */
 .edit-meme-img {
   width: 100%;
-  max-height: 300px;
-  object-fit: contain;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  max-height: 400px;
+  object-fit: contain; /* Ensures full image is shown */
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background: #2a2a2a;
+  padding: 5px;
 }
 
-input {
-  width: 90%;
+/* ✅ File Input */
+input[type="file"] {
+  display: block;
+  margin: 10px auto;
   padding: 10px;
-  margin: 10px 0;
-  background: #333;
   color: white;
+  background: #333;
   border: none;
   border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
 }
 
+/* ✅ Caption Input */
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: #333;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* ✅ Button */
 button {
   background: #ff9800;
   border: none;
   color: black;
-  padding: 10px 15px;
+  padding: 12px 18px;
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s ease-in-out;
-  margin: 5px;
+  width: 100%;
 }
 
 button:hover {
@@ -45,11 +64,31 @@ button:hover {
   color: white;
 }
 
-/* ✅ Delete Button */
-.delete-btn {
-  background: #ff3333;
+/* ✅ Loading Text */
+p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ddd;
+  text-align: center;
 }
 
-.delete-btn:hover {
-  background: #cc0000;
+/* ✅ Mobile Responsive */
+@media (max-width: 600px) {
+  .edit-meme-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .edit-meme-img {
+    max-height: 300px;
+  }
+
+  input[type="text"] {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px 14px;
+  }
 }

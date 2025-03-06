@@ -19,13 +19,32 @@ export const { setMemes, setLoading } = memeSlice.actions;
 export const fetchMemes = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const res = await axios.get("https://memeverse-kihy.vercel.app/api/memes");
-    dispatch(setMemes(res.data));
+    const backendRes = await axios.get("http://localhost:5000/api/memes");
+    const apiRes = await axios.get("https://api.imgflip.com/get_memes");
+
+    const apiMemes = apiRes.data.data.memes.map((meme) => ({
+      id: meme.id,
+      name: meme.name,
+      url: meme.url,
+      likes: 0,
+      owner: null,
+    }));
+
+    const userMemes = backendRes.data.map((meme) => ({
+      id: meme._id,
+      name: meme.caption,
+      url: meme.imageUrl,
+      likes: meme.likes,
+      owner: meme.owner,
+    }));
+
+    dispatch(setMemes([...apiMemes, ...userMemes].sort(() => Math.random() - 0.5)));
   } catch (err) {
     console.error(err);
   } finally {
     dispatch(setLoading(false));
   }
 };
+
 
 export default memeSlice.reducer;

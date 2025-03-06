@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import uploadToCloudinary from "../utils/uploadToCloudinary";
 import "../styles/editMeme.css";
 
 const EditMeme = () => {
@@ -16,15 +17,12 @@ const EditMeme = () => {
     const fetchMeme = async () => {
       try {
         const response = await axios.get(
-          `https://memeverse-kihy.vercel.app/api/memes/${memeId}`
+          `http://localhost:5000/api/memes/${memeId}`
         );
         setMeme(response.data);
         setNewCaption(response.data.caption);
       } catch (error) {
-        console.error(
-          "Error fetching meme:",
-          error.response?.data || error.message
-        );
+        console.error("Error fetching meme:", error);
       }
     };
 
@@ -35,27 +33,26 @@ const EditMeme = () => {
     const file = event.target.files[0];
     if (file) {
       setNewImage(file);
-      setPreview(URL.createObjectURL(file)); // Show preview before uploading
+      setPreview(URL.createObjectURL(file));
     }
   };
 
   const handleUpdateMeme = async () => {
     setUploading(true);
-    const formData = new FormData();
-    formData.append("caption", newCaption);
+    let imageUrl = meme.imageUrl;
+
     if (newImage) {
-      formData.append("image", newImage);
+      imageUrl = await uploadToCloudinary(newImage);
     }
 
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `https://memeverse-kihy.vercel.app/api/memes/${memeId}`,
-        formData,
+        `http://localhost:5000/api/memes/${memeId}`,
+        { caption: newCaption, imageUrl },
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -70,27 +67,6 @@ const EditMeme = () => {
     }
   };
 
-  // ✅ Delete Meme Function
-  const handleDeleteMeme = async () => {
-    if (!window.confirm("Are you sure you want to delete this meme?")) return;
-
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(
-        `https://memeverse-kihy.vercel.app/api/memes/${memeId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      alert("Meme deleted!");
-      navigate("/profile"); // Redirect to profile after deleting
-    } catch (error) {
-      console.error("Delete failed:", error);
-      alert("Failed to delete meme.");
-    }
-  };
-
   return (
     <div className="edit-meme-container">
       {meme ? (
@@ -101,22 +77,14 @@ const EditMeme = () => {
             alt="Meme"
             className="edit-meme-img"
           />
-
           <input type="file" accept="image/*" onChange={handleImageChange} />
-
           <input
             type="text"
             value={newCaption}
             onChange={(e) => setNewCaption(e.target.value)}
           />
-
           <button onClick={handleUpdateMeme} disabled={uploading}>
             {uploading ? "Updating..." : "Save Changes"}
-          </button>
-
-          {/* ✅ Delete Meme Button */}
-          <button className="delete-btn" onClick={handleDeleteMeme}>
-            Delete Meme
           </button>
         </>
       ) : (

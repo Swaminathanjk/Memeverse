@@ -22,21 +22,19 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://memeverse-kihy.vercel.app/api/auth/login",
-        {
-          email,
-          password,
-        }
+        "http://localhost:5000/api/auth/login", // ✅ Fixed API URL
+        { email, password }
       );
 
-      localStorage.setItem("token", response.data.token); // Store token for authentication
-      localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user info
+      // ✅ Store token and user details
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
       alert("Login Successful!");
-      navigate("/profile"); // Redirect to profile page after login
+      navigate("/profile"); // ✅ Redirect to profile page after login
     } catch (err) {
       console.error("Login failed:", err);
-      setError("Invalid email or password.");
+      setError(err.response?.data || "Invalid email or password.");
     } finally {
       setLoading(false);
     }
@@ -68,6 +66,7 @@ const Login = () => {
       <button className="login-btn" onClick={handleLogin} disabled={loading}>
         {loading ? "Logging in..." : "Login"}
       </button>
+
       <Link to="/register">New user? Click here to Register</Link>
     </div>
   );

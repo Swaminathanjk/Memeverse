@@ -26,14 +26,14 @@ const Home = () => {
 
         // Fetch user-uploaded memes from backend
         const backendResponse = await axios.get(
-          "https://memeverse-kihy.vercel.app/api/memes"
+          "http://localhost:5000/api/memes"
         );
         const userMemes = backendResponse.data.map((meme) => ({
           id: meme._id,
           name: meme.caption,
           url: meme.imageUrl,
           likes: meme.likes,
-          owner: meme.owner,
+          owner: meme.owner ? meme.owner.username : "MemeVerse", // Fix owner name
         }));
 
         // Combine and shuffle memes randomly
@@ -61,12 +61,16 @@ const Home = () => {
   };
 
   useEffect(() => {
+    let scrollTimeout;
     const handleScroll = (event) => {
-      if (event.deltaY > 0 || event.key === "ArrowDown") {
-        handleNextMeme();
-      } else if (event.deltaY < 0 || event.key === "ArrowUp") {
-        handlePrevMeme();
-      }
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        if (event.deltaY > 0 || event.key === "ArrowDown") {
+          handleNextMeme();
+        } else if (event.deltaY < 0 || event.key === "ArrowUp") {
+          handlePrevMeme();
+        }
+      }, 100);
     };
 
     window.addEventListener("wheel", handleScroll);
@@ -90,10 +94,7 @@ const Home = () => {
           />
           <h3 className="meme-title">{memes[currentIndex]?.name}</h3>
           <p className="meme-owner">
-            Uploaded by:{" "}
-            {memes[currentIndex]?.owner
-              ? memes[currentIndex].owner.username
-              : "MemeVerse"}
+            Uploaded by: {memes[currentIndex]?.owner || "MemeVerse"}
           </p>
         </div>
       )}

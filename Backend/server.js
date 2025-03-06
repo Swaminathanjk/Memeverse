@@ -7,12 +7,9 @@ dotenv.config(); // ✅ Load environment variables
 
 const app = express();
 
-// ✅ CORS Configuration
-const corsOptions = {
-  origin: ["https://memeverse-swaminathanjks-projects.vercel.app"], // ✅ Allow frontend
-  credentials: true,
-};
-app.use(cors(corsOptions));
+
+
+app.use(cors());
 app.use(express.json());
 
 // ✅ MongoDB Connection with Error Handling

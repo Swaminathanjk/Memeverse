@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import uploadToCloudinary from "../utils/uploadToCloudinary"; // ✅ Import helper function
+import uploadToCloudinary from "../utils/uploadToCloudinary";
 import "../styles/profile.css";
 
 const Profile = () => {
@@ -10,7 +10,7 @@ const Profile = () => {
   const [bio, setBio] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,12 +31,10 @@ const Profile = () => {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
       setBio(parsedUser.bio || "");
-      setProfilePic(parsedUser.profilePic || "/default-avatar.png");
+      setProfilePic(parsedUser.profilePic || "/default-avatar.jpg");
 
       axios
-        .get(
-          `https://memeverse-kihy.vercel.app/api/users/${parsedUser._id}/memes`
-        )
+        .get(`http://localhost:5000/api/users/${parsedUser._id}/memes`)
         .then((response) => setMemes(response.data))
         .catch((error) => console.error("Error fetching memes:", error))
         .finally(() => setLoading(false));
@@ -48,35 +46,42 @@ const Profile = () => {
     }
   }, []);
 
+  // ✅ Combined Profile Update Function (Bio & Picture)
   const handleProfileUpdate = async (event) => {
     event.preventDefault();
     if (!user) return;
 
-    setUploading(true);
-    let imageUrl = profilePic; // Keep the old profile pic if no new one is uploaded
+    setUpdating(true);
+    let imageUrl = profilePic;
 
+    // ✅ If a new image is selected, upload to Cloudinary
     if (event.target.files?.[0]) {
-      const uploadedUrl = await uploadToCloudinary(event.target.files[0]); // ✅ Upload to Cloudinary
+      const uploadedUrl = await uploadToCloudinary(event.target.files[0]);
       if (uploadedUrl) imageUrl = uploadedUrl;
     }
 
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `https://memeverse-kihy.vercel.app/api/users/${user._id}/update-profile`,
+        `http://localhost:5000/api/users/${user._id}/update-profile`,
         { bio, profilePic: imageUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setProfilePic(response.data.profilePic);
-      setUser(response.data);
-      localStorage.setItem("user", JSON.stringify(response.data));
+      const updatedUser = response.data;
+
+      // ✅ Update React state & localStorage
+      setUser(updatedUser);
+      setProfilePic(updatedUser.profilePic);
+      setBio(updatedUser.bio);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Profile update failed:", error);
       alert("Failed to update profile.");
     } finally {
-      setUploading(false);
+      setUpdating(false);
     }
   };
 
@@ -87,25 +92,29 @@ const Profile = () => {
       ) : user ? (
         <>
           <h1>{user.username}'s Profile</h1>
+
+          {/* ✅ Profile Picture Edit */}
           <label htmlFor="profile-pic-upload" className="profile-pic-label">
             <img src={profilePic} alt="Profile" className="profile-pic" />
           </label>
+          {/* ✅ Hidden Input - Only visible when clicking the profile picture */}
           <input
             type="file"
             id="profile-pic-upload"
             accept="image/*"
             onChange={handleProfileUpdate}
-            className="hidden-input"
+            className="hidden-input" // This class will hide the input
           />
 
+          {/* ✅ Bio Update */}
           <input
             type="text"
             placeholder="Update your bio..."
             value={bio}
             onChange={(e) => setBio(e.target.value)}
           />
-          <button onClick={handleProfileUpdate} disabled={uploading}>
-            {uploading ? "Updating..." : "Update Profile"}
+          <button onClick={handleProfileUpdate} disabled={updating}>
+            {updating ? "Updating..." : "Update Profile"}
           </button>
 
           <h2>Your Memes</h2>
