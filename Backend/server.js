@@ -7,9 +7,15 @@ dotenv.config(); // ✅ Load env variables
 
 const app = express();
 
+const corsOptions = {
+    origin: ["https://your-frontend.vercel.app"], // ✅ Allow frontend requests
+    credentials: true
+  };
+
 // ✅ Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
+
 
 // ✅ MongoDB Connection
 mongoose.set("strictQuery", false); // ✅ Prevents deprecation warnings
@@ -20,6 +26,10 @@ mongoose
 
 // ✅ Debugging: Log if the server starts correctly
 console.log("✅ Server Starting...");
+
+app.get("/", (req, res) => {
+    res.send("✅ MemeVerse Backend is Running!");
+  });
 
 // ✅ Routes
 app.use("/api/auth", require("./routes/auth"));
