@@ -82,6 +82,9 @@ memeverse/
 ```
 ## 📜 API Endpoints
 
+## *Prefix Backend host*
+`http://localhost:5000/`
+
 ### 🔐 Authentication
 | Method | Endpoint            | Description           |
 |--------|---------------------|-----------------------|
@@ -106,7 +109,6 @@ memeverse/
 ### 🔄 Meme Interactions (Future Features)
 | Method | Endpoint                         | Description |
 |--------|----------------------------------|-------------|
-| POST   | `/api/memes/:id/like`           | Like a meme |
 | POST   | `/api/memes/:id/comment`        | Comment on a meme |
 | GET    | `/api/memes/:id/comments`       | Get comments on a meme |
 
