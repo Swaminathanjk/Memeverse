@@ -119,7 +119,7 @@ memeverse/
 📌 Meme Reactions (Likes, Comments, Shares)\
 📌 Chat Feature (Coming Soon...)\
 📌 Explore Page with Trending Memes\
-📌 GIF & Video Meme Support\
+📌 GIF & Video Meme Support
 
 ## **🎨 UI Screenshots**
 
