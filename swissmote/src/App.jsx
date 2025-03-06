@@ -18,7 +18,6 @@ function App() {
   return (
     <Router>
       <Header />
-      <Footer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
