@@ -63,7 +63,7 @@ cd swissmote && npm run dev
 ```
 🚀 The app will be available at http://localhost:5173
 
-## **📂 Folder Structure
+## **📂 Folder Structure**
 ```bash
 memeverse/
 │── client/                # Frontend Code (React)
@@ -80,3 +80,34 @@ memeverse/
 │   ├── index.js           # Server Entry Point
 │── README.md              # Project Documentation
 ```
+## 📜 API Endpoints
+
+### 🔐 Authentication
+| Method | Endpoint            | Description           |
+|--------|---------------------|-----------------------|
+| POST   | `/api/auth/register` | User Registration |
+| POST   | `/api/auth/login`    | User Login |
+
+### 🖼 Meme Management
+| Method | Endpoint                  | Description |
+|--------|---------------------------|-------------|
+| GET    | `/api/memes/`              | Get all memes |
+| POST   | `/api/memes/upload`        | Upload a meme |
+| GET    | `/api/memes/:id`           | Get a meme by ID |
+| PUT    | `/api/memes/:id`           | Update meme caption & image |
+| DELETE | `/api/memes/:id`           | Delete a meme |
+
+### 👤 Profile Management
+| Method | Endpoint                        | Description |
+|--------|---------------------------------|-------------|
+| GET    | `/api/users/:id/memes`         | Get user-uploaded memes |
+| PUT    | `/api/users/:id/update-profile` | Update profile bio & picture |
+
+### 🔄 Meme Interactions (Future Features)
+| Method | Endpoint                         | Description |
+|--------|----------------------------------|-------------|
+| POST   | `/api/memes/:id/like`           | Like a meme |
+| POST   | `/api/memes/:id/comment`        | Comment on a meme |
+| GET    | `/api/memes/:id/comments`       | Get comments on a meme |
+
+---
