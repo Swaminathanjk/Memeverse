@@ -122,12 +122,9 @@ memeverse/
 📌 GIF & Video Meme Support
 
 ## **🎨 UI Screenshots**
-![image](https://github.com/user-attachments/assets/0bd1866c-3e51-46af-8b82-716339836e70)\
-![image](https://github.com/user-attachments/assets/87e12697-9088-4c67-97c7-51989c7c9180)\
-![image](https://github.com/user-attachments/assets/528db414-9d90-420f-9002-121d611b889e)\
-![image](https://github.com/user-attachments/assets/a976609a-fc2b-4f09-8baf-2d3e8eae5882)\
-![image](https://github.com/user-attachments/assets/cd6274f3-5e31-4659-95d9-d45d3fa3884f)\
-![image](https://github.com/user-attachments/assets/b76c2900-f572-4092-9411-99e5e2ed1f6b)
+![image](https://github.com/user-attachments/assets/0bd1866c-3e51-46af-8b82-716339836e70)![image](https://github.com/user-attachments/assets/87e12697-9088-4c67-97c7-51989c7c9180)\
+![image](https://github.com/user-attachments/assets/528db414-9d90-420f-9002-121d611b889e)![image](https://github.com/user-attachments/assets/a976609a-fc2b-4f09-8baf-2d3e8eae5882)\
+![image](https://github.com/user-attachments/assets/cd6274f3-5e31-4659-95d9-d45d3fa3884f)![image](https://github.com/user-attachments/assets/b76c2900-f572-4092-9411-99e5e2ed1f6b)
 
 ## **📬 Contact**
 📧 Email: `swaminathanjk@gmail.com`\
