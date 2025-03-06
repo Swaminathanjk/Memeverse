@@ -2,7 +2,7 @@
 .profile-container {
   width: 100%;
   max-width: 500px;
-  overflow-y: auto;
+  overflow-y: hidden;
   height: 100vh;
   margin: auto;
   text-align: center;
