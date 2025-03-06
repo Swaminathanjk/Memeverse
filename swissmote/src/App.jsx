@@ -5,7 +5,7 @@ import Explorer from "./pages/Explorer";
 import Upload from "./pages/Upload";
 import MemeDetails from "./pages/MemeDetails";
 import Profile from "./pages/Profile";
-import Leaderboard from "./pages/Leaderboard";
+import LeaderBoard from "./pages/LeaderBoard";
 import NotFound from "./pages/NotFound";
 import Chat from "./pages/Chat";
 import Login from "./pages/Login";
@@ -23,7 +23,7 @@ function App() {
           <Route path="/upload" element={<Upload />} />
           <Route path="/meme/:id" element={<MemeDetails />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/leaderboard" element={<LeaderBoard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/edit/:memeId" element={<EditMeme />} />
