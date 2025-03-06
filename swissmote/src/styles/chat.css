@@ -1,0 +1,36 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  height: 100vh;
+  text-align: center;
+  background: #121212; /* Dark Theme */
+  color: white;
+}
+
+.chat-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ff9800;
+}
+
+.chat-coming-soon {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #f44336;
+  animation: blink 1.5s infinite alternate;
+}
+
+/* 🔥 Blinking Animation */
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.4;
+  }
+}

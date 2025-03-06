@@ -1,0 +1,170 @@
+/* Profile Container */
+/* ✅ Profile Container with Custom Scrollbar */
+.profile-container {
+  width: 100%;
+  max-width: 500px;
+  overflow-y: auto; /* ✅ Keep scrolling enabled */
+  height: 100vh;
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+  background: #1e1e1e;
+  padding-bottom: 180px;
+  margin-top: 10px;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ Custom Black-Themed Scrollbar (Chrome, Safari, Edge) */
+.profile-container::-webkit-scrollbar {
+  width: 8px; /* Scrollbar width */
+}
+
+.profile-container::-webkit-scrollbar-track {
+  background: #121212; /* Dark track */
+  border-radius: 10px;
+}
+
+.profile-container::-webkit-scrollbar-thumb {
+  background: #333; /* Dark grey thumb */
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+.profile-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Slightly lighter on hover */
+}
+
+/* ✅ Custom Scrollbar for Firefox */
+.profile-container {
+  scrollbar-width: thin;
+  scrollbar-color: #333 #121212;
+}
+/* Profile Picture */
+.profile-pic-label {
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.profile-pic-label:hover {
+  transform: scale(1.05);
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  object-fit: cover;
+}
+
+.hidden-input {
+  display: none;
+}
+
+/* Input Fields */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: #333;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}
+
+/* Buttons */
+button {
+  background: #ff9800;
+  border: none;
+  color: black;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+button:hover {
+  background: #f44336;
+  color: white;
+}
+
+.meme-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(150px, 1fr)
+  ); /* Responsive grid */
+  gap: 8px;
+  padding: 20px 0;
+}
+
+/* ✅ Meme Card */
+.meme-card {
+  background: #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  padding: 5px; /* Padding to prevent tight cropping */
+}
+
+/* ✅ Fix Cropping Issue */
+.meme-card img {
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* ✅ Prevents cropping */
+  background-color: #2a2a2a; /* ✅ Adds a background to fill empty space */
+  border-radius: 5px;
+}
+
+.meme-card p {
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+.login-message {
+  text-align: center;
+  padding: 20px;
+}
+
+.login-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: #ff9800;
+  color: black;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.2s ease-in-out;
+}
+
+.login-link:hover {
+  background: #f44336;
+  color: white;
+}
+
+/* ✅ Mobile Responsive */
+@media (max-width: 600px) {
+  .meme-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2-column layout on mobile */
+  }
+}
+
+@media (max-width: 400px) {
+  .meme-grid {
+    grid-template-columns: repeat(
+      1,
+      1fr
+    ); /* 1-column layout on very small screens */
+  }
+}
