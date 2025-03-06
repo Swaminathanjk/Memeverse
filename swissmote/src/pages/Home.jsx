@@ -26,14 +26,14 @@ const Home = () => {
 
         // Fetch user-uploaded memes from backend
         const backendResponse = await axios.get(
-          "https://memeverse-backend.vercel.app/api/memes"
+          "http://localhost:5000/api/memes"
         );
         const userMemes = backendResponse.data.map((meme) => ({
           id: meme._id,
           name: meme.caption,
           url: meme.imageUrl,
           likes: meme.likes,
-          owner: meme.owner ? meme.owner.username : "MemeVerse", // Fix owner name
+          owner: meme.owner,
         }));
 
         // Combine and shuffle memes randomly
@@ -51,18 +51,37 @@ const Home = () => {
     fetchMemes();
   }, []);
 
-  // Handle scroll/swipe to show the next meme
+  // Handle next meme
   const handleNextMeme = () => {
     setCurrentIndex((prev) => (prev < memes.length - 1 ? prev + 1 : 0));
   };
 
+  // Handle previous meme
   const handlePrevMeme = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : memes.length - 1));
   };
 
+  // Handle touch/swipe on mobile
+  const [startTouch, setStartTouch] = useState(0);
+
+  const handleTouchStart = (e) => {
+    const touchStart = e.touches[0].clientY;
+    setStartTouch(touchStart);
+  };
+
+  const handleTouchEnd = (e) => {
+    const touchEnd = e.changedTouches[0].clientY;
+    if (startTouch - touchEnd > 50) {
+      handleNextMeme(); // Swipe Up
+    } else if (touchEnd - startTouch > 50) {
+      handlePrevMeme(); // Swipe Down
+    }
+  };
+
   useEffect(() => {
     let scrollTimeout;
-    const handleScroll = (event) => {
+
+    const handleWheelAndKeyScroll = (event) => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         if (event.deltaY > 0 || event.key === "ArrowDown") {
@@ -73,11 +92,19 @@ const Home = () => {
       }, 100);
     };
 
-    window.addEventListener("wheel", handleScroll);
-    window.addEventListener("keydown", handleScroll);
+    // Adding event listeners for both wheel and key events (for desktop)
+    window.addEventListener("wheel", handleWheelAndKeyScroll);
+    window.addEventListener("keydown", handleWheelAndKeyScroll);
+
+    // Adding touch events for mobile devices
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchend", handleTouchEnd);
+
     return () => {
-      window.removeEventListener("wheel", handleScroll);
-      window.removeEventListener("keydown", handleScroll);
+      window.removeEventListener("wheel", handleWheelAndKeyScroll);
+      window.removeEventListener("keydown", handleWheelAndKeyScroll);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [memes]);
 
@@ -94,7 +121,7 @@ const Home = () => {
           />
           <h3 className="meme-title">{memes[currentIndex]?.name}</h3>
           <p className="meme-owner">
-            Uploaded by: {memes[currentIndex]?.owner || "MemeVerse"}
+            Uploaded by: {memes[currentIndex]?.owner?.username || "MemeVerse"}
           </p>
         </div>
       )}
