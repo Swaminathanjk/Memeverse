@@ -41,7 +41,7 @@ cd memeverse
 2️⃣ Install Dependencies
 
 npm install
-cd client && npm install
+cd swissmote && npm install
 
 3️⃣ Set Up Environment Variables
 
@@ -59,7 +59,7 @@ CLOUDINARY_API_SECRET=your_api_secret
 npm run dev
 
 # Start Frontend
-cd client && npm run dev
+cd swissmote && npm run dev
 ```
 🚀 The app will be available at http://localhost:5173
 
