@@ -71,9 +71,12 @@ const Home = () => {
 
   const handleTouchEnd = (e) => {
     const touchEnd = e.changedTouches[0].clientY;
-    if (startTouch - touchEnd > 50) {
+    const swipeDistance = startTouch - touchEnd;
+
+    // Check swipe distance and trigger appropriate action
+    if (swipeDistance > 50) {
       handleNextMeme(); // Swipe Up
-    } else if (touchEnd - startTouch > 50) {
+    } else if (swipeDistance < -50) {
       handlePrevMeme(); // Swipe Down
     }
   };
