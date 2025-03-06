@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-dotenv.config(); // ✅ Load env variables
+dotenv.config(); // ✅ Load environment variables
 
 const app = express();
 
@@ -21,7 +21,7 @@ mongoose
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => {
     console.error("❌ MongoDB Connection Error:", err);
-    process.exit(1); // ✅ Exit if MongoDB fails
+    process.exit(1); // Prevents infinite timeout
   });
 
 // ✅ Root Route to Keep Vercel Server Alive
