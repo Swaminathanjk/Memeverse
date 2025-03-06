@@ -1,14 +1,11 @@
 const express = require("express");
 const User = require("../models/User");
-const Meme = require("../models/Meme"); // ✅ Import Meme Model
+const Meme = require("../models/Meme");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const multer = require("multer");
 const mongoose = require("mongoose");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("../config/cloudinary");
 
-// Middleware to verify JWT
+// ✅ Middleware to verify JWT
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json("Access Denied");
@@ -20,48 +17,32 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-// ✅ Cloudinary Storage Setup
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "profile_pictures",
-    allowed_formats: ["jpg", "png", "jpeg"],
-  },
-});
-const upload = multer({ storage });
-
-// ✅ Combined Route: Update Bio & Profile Picture
-router.put(
-  "/:id/update-profile",
-  verifyToken,
-  upload.single("image"),
-  async (req, res) => {
-    try {
-      if (req.user.id !== req.params.id) {
-        return res.status(403).json("You can only update your own profile.");
-      }
-
-      const updateFields = {};
-      if (req.body.bio) updateFields.bio = req.body.bio;
-      if (req.file) updateFields.profilePic = req.file.path; // Cloudinary URL
-
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        updateFields,
-        { new: true }
-      );
-      res.json(updatedUser);
-    } catch (error) {
-      res.status(500).json("Failed to update profile.");
+// ✅ Update Profile (Bio & Profile Picture)
+router.put("/:id/update-profile", verifyToken, async (req, res) => {
+  try {
+    if (req.user.id !== req.params.id) {
+      return res.status(403).json("You can only update your own profile.");
     }
+
+    const updateFields = {};
+    if (req.body.bio) updateFields.bio = req.body.bio;
+    if (req.body.profilePic) updateFields.profilePic = req.body.profilePic; // ✅ Store only Cloudinary URL
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      updateFields,
+      { new: true }
+    );
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json("Failed to update profile.");
   }
-);
+});
 
 // ✅ Get User’s Uploaded Memes
 router.get("/:id/memes", async (req, res) => {
   try {
-    const userId = new mongoose.Types.ObjectId(req.params.id); // ✅ Convert to ObjectId
-
+    const userId = new mongoose.Types.ObjectId(req.params.id);
     const memes = await Meme.find({ owner: userId });
 
     if (memes.length === 0) {
@@ -75,33 +56,35 @@ router.get("/:id/memes", async (req, res) => {
   }
 });
 
-// ✅ Upload Meme to User-Specific Collection
-router.post(
-  "/:id/memes",
-  verifyToken,
-  upload.single("image"),
-  async (req, res) => {
-    try {
-      if (req.user.id !== req.params.id) {
-        return res
-          .status(403)
-          .json("You can only upload memes to your own profile.");
-      }
-
-      const newMeme = new Meme({
-        imageUrl: req.file.path, // ✅ Cloudinary URL
-        caption: req.body.caption,
-        owner: req.user.id, // ✅ Link meme to user
-      });
-
-      await newMeme.save();
-      res
-        .status(201)
-        .json({ message: "Meme uploaded to profile!", meme: newMeme });
-    } catch (error) {
-      res.status(500).json("Failed to upload meme.");
+// ✅ Upload Meme to User's Profile (Now Accepts Only URL)
+router.post("/:id/memes", verifyToken, async (req, res) => {
+  try {
+    if (req.user.id !== req.params.id) {
+      return res
+        .status(403)
+        .json("You can only upload memes to your own profile.");
     }
+
+    const { imageUrl, caption } = req.body;
+    if (!imageUrl || !caption) {
+      return res
+        .status(400)
+        .json({ error: "Image URL and caption are required" });
+    }
+
+    const newMeme = new Meme({
+      imageUrl,
+      caption,
+      owner: req.user.id,
+    });
+
+    await newMeme.save();
+    res
+      .status(201)
+      .json({ message: "Meme uploaded to profile!", meme: newMeme });
+  } catch (error) {
+    res.status(500).json("Failed to upload meme.");
   }
-);
+});
 
 module.exports = router;

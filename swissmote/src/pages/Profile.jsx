@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // ✅ Import Link for navigation
+import { Link } from "react-router-dom";
+import uploadToCloudinary from "../utils/uploadToCloudinary"; // ✅ Import helper function
 import "../styles/profile.css";
 
 const Profile = () => {
@@ -14,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      setUser(null); // ✅ No token = no user
+      setUser(null);
       setLoading(false);
       return;
     }
@@ -52,23 +53,19 @@ const Profile = () => {
     if (!user) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append("bio", bio);
+    let imageUrl = profilePic; // Keep the old profile pic if no new one is uploaded
+
     if (event.target.files?.[0]) {
-      formData.append("image", event.target.files[0]);
+      const uploadedUrl = await uploadToCloudinary(event.target.files[0]); // ✅ Upload to Cloudinary
+      if (uploadedUrl) imageUrl = uploadedUrl;
     }
 
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
         `https://memeverse-kihy.vercel.app/api/users/${user._id}/update-profile`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { bio, profilePic: imageUrl },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setProfilePic(response.data.profilePic);

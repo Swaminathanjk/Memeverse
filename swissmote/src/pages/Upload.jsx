@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import uploadToCloudinary from "../utils/uploadToCloudinary"; // ✅ Import the function
 import "../styles/upload.css";
 
 const Upload = () => {
@@ -23,23 +24,19 @@ const Upload = () => {
     }
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("caption", caption);
 
     try {
-      const token = localStorage.getItem("token");
-      const user = JSON.parse(localStorage.getItem("user")); // ✅ Get user ID
+      const cloudinaryUrl = await uploadToCloudinary(image); // ✅ Upload to Cloudinary
+      if (!cloudinaryUrl) throw new Error("Image upload failed");
 
-      // ✅ Upload to User-Specific Meme Collection
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user"));
+
       const response = await axios.post(
         `https://memeverse-kihy.vercel.app/api/users/${user._id}/memes`,
-        formData,
+        { imageUrl: cloudinaryUrl, caption }, // ✅ Send only URL to backend
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
