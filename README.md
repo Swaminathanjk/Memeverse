@@ -116,10 +116,10 @@ memeverse/
 ---
 
 ## **🎯 Future Enhancements**
-📌 Meme Reactions (Likes, Comments, Shares)
-📌 Chat Feature (Coming Soon...)
-📌 Explore Page with Trending Memes
-📌 GIF & Video Meme Support
+📌 Meme Reactions (Likes, Comments, Shares)\
+📌 Chat Feature (Coming Soon...)\
+📌 Explore Page with Trending Memes\
+📌 GIF & Video Meme Support\
 
 ## **🎨 UI Screenshots**
 
