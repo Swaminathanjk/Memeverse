@@ -123,14 +123,8 @@ memeverse/
 
 ## **🎨 UI Screenshots**
 
-## **🤝 Contributing**
-Want to contribute?
-1️⃣ Fork the repo
-2️⃣ Create a new branch (feature-new)
-3️⃣ Commit your changes
-4️⃣ Open a pull request
 
 ## **📬 Contact**
-📧 Email: your-email@example.com
-🐙 GitHub: yourusername
+📧 Email: `swaminathanjk@gmail.com`
+🐙 GitHub: Swaminathanjk
 🔗 Website: yourwebsite.com
