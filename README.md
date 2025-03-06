@@ -33,36 +33,33 @@ MemeVerse is a fun, interactive meme-sharing platform where users can upload, ed
 
 ## **📌 Installation & Setup**
 ```sh
-### **1️⃣ Clone the Repository**
+1️⃣ Clone the Repository**
 
 git clone https://github.com/yourusername/memeverse.git
 cd memeverse
 
 2️⃣ Install Dependencies
-sh
-Copy
-Edit
+
 npm install
 cd client && npm install
+
 3️⃣ Set Up Environment Variables
+
 Create a .env file in the root directory and add:
 
-ini
-Copy
-Edit
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+
 4️⃣ Start the Development Server
-sh
-Copy
-Edit
+
 # Start Backend
 npm run dev
 
 # Start Frontend
 cd client && npm run dev
+```
 🚀 The app will be available at http://localhost:5173
 
