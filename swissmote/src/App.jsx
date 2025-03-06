@@ -11,25 +11,28 @@ import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EditMeme from "./pages/EditMeme";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/explorer" element={<Explorer />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/meme/:id" element={<MemeDetails />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/leaderboard" element={<LeaderBoard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/edit/:memeId" element={<EditMeme />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Layout>
+      <Header />
+      <Footer />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/explorer" element={<Explorer />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/meme/:id" element={<MemeDetails />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/leaderboard" element={<LeaderBoard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/edit/:memeId" element={<EditMeme />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
     </Router>
   );
 }
