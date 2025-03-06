@@ -26,7 +26,7 @@ const Home = () => {
 
         // Fetch user-uploaded memes from backend
         const backendResponse = await axios.get(
-          "http://localhost:5000/api/memes"
+          "https://memeverse-backend.vercel.app/api/memes"
         );
         const userMemes = backendResponse.data.map((meme) => ({
           id: meme._id,

@@ -17,21 +17,25 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/explorer" element={<Explorer />} />
-        <Route path="/upload" element={<Upload />} />
-        <Route path="/meme/:id" element={<MemeDetails />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/leaderboard" element={<LeaderBoard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/edit/:memeId" element={<EditMeme />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+      <div className="app-container">
+        <Header />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/explorer" element={<Explorer />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/meme/:id" element={<MemeDetails />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/leaderboard" element={<LeaderBoard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/edit/:memeId" element={<EditMeme />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
