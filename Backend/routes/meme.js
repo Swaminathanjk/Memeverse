@@ -33,7 +33,7 @@ const verifyToken = (req, res, next) => {
 
 router.get("/", async (req, res) => {
   try {
-    const memes = await Meme.find().populate("owner", "username");
+    const memes = await Meme.find().limit(50);
     res.json(memes);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch memes" });
