@@ -109,7 +109,28 @@ memeverse/
 ### 🔄 Meme Interactions (Future Features)
 | Method | Endpoint                         | Description |
 |--------|----------------------------------|-------------|
+| POST   | `/api/memes/:id/like`           | Like a meme |
 | POST   | `/api/memes/:id/comment`        | Comment on a meme |
 | GET    | `/api/memes/:id/comments`       | Get comments on a meme |
 
 ---
+
+## **🎯 Future Enhancements**
+📌 Meme Reactions (Likes, Comments, Shares)
+📌 Chat Feature (Coming Soon...)
+📌 Explore Page with Trending Memes
+📌 GIF & Video Meme Support
+
+## **🎨 UI Screenshots**
+
+## **🤝 Contributing**
+Want to contribute?
+1️⃣ Fork the repo
+2️⃣ Create a new branch (feature-new)
+3️⃣ Commit your changes
+4️⃣ Open a pull request
+
+## **📬 Contact**
+📧 Email: your-email@example.com
+🐙 GitHub: yourusername
+🔗 Website: yourwebsite.com
