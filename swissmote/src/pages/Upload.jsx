@@ -33,7 +33,7 @@ const Upload = () => {
 
       // ✅ Upload to User-Specific Meme Collection
       const response = await axios.post(
-        `http://localhost:5000/api/users/${user._id}/memes`,
+        `https://memeverse-kihy.vercel.app/api/users/${user._id}/memes`,
         formData,
         {
           headers: {

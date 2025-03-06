@@ -7,7 +7,6 @@ const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const fetchMemes = async () => {
       try {
@@ -27,7 +26,7 @@ const Home = () => {
 
         // Fetch user-uploaded memes from backend
         const backendResponse = await axios.get(
-          "http://localhost:5000/api/memes"
+          "https://memeverse-kihy.vercel.app/api/memes"
         );
         const userMemes = backendResponse.data.map((meme) => ({
           id: meme._id,
@@ -36,7 +35,6 @@ const Home = () => {
           likes: meme.likes,
           owner: meme.owner,
         }));
-
 
         // Combine and shuffle memes randomly
         const combinedMemes = [...apiMemes, ...userMemes].sort(

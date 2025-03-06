@@ -16,7 +16,7 @@ const EditMeme = () => {
     const fetchMeme = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/memes/${memeId}`
+          `https://memeverse-kihy.vercel.app/api/memes/${memeId}`
         );
         setMeme(response.data);
         setNewCaption(response.data.caption);
@@ -49,12 +49,16 @@ const EditMeme = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:5000/api/memes/${memeId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.put(
+        `https://memeverse-kihy.vercel.app/api/memes/${memeId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       alert("Meme updated!");
       navigate("/profile");
@@ -72,9 +76,12 @@ const EditMeme = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/memes/${memeId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://memeverse-kihy.vercel.app/api/memes/${memeId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       alert("Meme deleted!");
       navigate("/profile"); // Redirect to profile after deleting

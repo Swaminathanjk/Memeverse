@@ -21,10 +21,13 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://memeverse-kihy.vercel.app/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
       localStorage.setItem("token", response.data.token); // Store token for authentication
       localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user info
@@ -43,7 +46,7 @@ const Login = () => {
     <div className="login-container">
       <h1>Login</h1>
       <img src="/meme.jpg" alt="logo" className="logo-login" />
-      
+
       <input
         className={`input-mail ${error ? "input-error" : ""}`}
         type="text"
@@ -51,7 +54,7 @@ const Login = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      
+
       <input
         className={`input-password ${error ? "input-error" : ""}`}
         type="password"
