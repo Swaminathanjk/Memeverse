@@ -53,7 +53,7 @@ const Upload = () => {
 
       // Send the image URL and caption to the backend
       const response = await axios.post(
-        `http://localhost:5000/api/users/${user._id}/memes`,
+        `https://memeverse-backend.vercel.app/api/users/${user._id}/memes`,
         { imageUrl: cloudinaryUrl, caption },
         {
           headers: { Authorization: `Bearer ${token}` },

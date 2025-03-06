@@ -22,7 +22,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login", // ✅ Fixed API URL
+        "https://memeverse-backend.vercel.app/api/auth/login", // ✅ Fixed API URL
         { email, password }
       );
 

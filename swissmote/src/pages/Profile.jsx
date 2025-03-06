@@ -34,7 +34,9 @@ const Profile = () => {
       setProfilePic(parsedUser.profilePic || "/default-avatar.jpg");
 
       axios
-        .get(`http://localhost:5000/api/users/${parsedUser._id}/memes`)
+        .get(
+          `https://memeverse-backend.vercel.app/api/users/${parsedUser._id}/memes`
+        )
         .then((response) => setMemes(response.data))
         .catch((error) => console.error("Error fetching memes:", error))
         .finally(() => setLoading(false));
@@ -63,7 +65,7 @@ const Profile = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:5000/api/users/${user._id}/update-profile`,
+        `https://memeverse-backend.vercel.app/api/users/${user._id}/update-profile`,
         { bio, profilePic: imageUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );

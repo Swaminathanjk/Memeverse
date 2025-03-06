@@ -17,7 +17,7 @@ const EditMeme = () => {
     const fetchMeme = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/memes/${memeId}`
+          `https://memeverse-backend.vercel.app/api/memes/${memeId}`
         );
         setMeme(response.data);
         setNewCaption(response.data.caption);
@@ -48,7 +48,7 @@ const EditMeme = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/memes/${memeId}`,
+        `https://memeverse-backend.vercel.app/api/memes/${memeId}`,
         { caption: newCaption, imageUrl },
         {
           headers: {
