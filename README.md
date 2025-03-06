@@ -36,7 +36,7 @@ MemeVerse is a fun, interactive meme-sharing platform where users can upload, ed
 1️⃣ Clone the Repository**
 
 git clone https://github.com/yourusername/memeverse.git
-cd memeverse
+cd Memeverse
 
 2️⃣ Install Dependencies
 
@@ -63,3 +63,20 @@ cd swissmote && npm run dev
 ```
 🚀 The app will be available at http://localhost:5173
 
+## **📂 Folder Structure
+```bash
+memeverse/
+│── client/                # Frontend Code (React)
+│   ├── src/
+│   │   ├── components/    # Reusable UI Components
+│   │   ├── pages/         # Profile, Home, Upload, Edit
+│   │   ├── styles/        # CSS Stylesheets
+│   │   ├── App.js         # Main React Component
+│   │   ├── main.js        # Entry Point
+│── server/                # Backend Code (Node.js, Express)
+│   ├── models/            # Mongoose Models
+│   ├── routes/            # Express API Routes
+│   ├── config/            # Cloudinary & DB Config
+│   ├── index.js           # Server Entry Point
+│── README.md              # Project Documentation
+```
