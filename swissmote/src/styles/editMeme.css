@@ -1,12 +1,13 @@
 /* ✅ Edit Meme Container */
 .edit-meme-container {
   max-width: 500px;
-  margin: 50px auto;
+  margin: 100px auto 50px;
   background: #1e1e1e;
   text-align: center;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   color: white;
+
 }
 
 /* ✅ Meme Image */

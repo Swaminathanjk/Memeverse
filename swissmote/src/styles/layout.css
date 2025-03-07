@@ -1,0 +1,43 @@
+/* Layout Container */
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e1e1e;
+  padding: 15px 20px;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid #333;
+  position: fixed; /* Keeps header fixed at the top */
+  width: 100%;
+  top: 0;
+  z-index: 1000; /* Ensures the header is above content */
+}
+
+/* Content (Children area) */
+.content {
+  flex-grow: 1; /* Allows the content area to take available space */
+  margin-top: 60px; /* Adjust for header height */
+  padding: 20px;
+  overflow-y: auto; /* Allows scrolling if the content overflows */
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1e1e1e;
+  padding: 15px 20px;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  border-top: 2px solid #333;
+}

@@ -2,16 +2,17 @@
 .profile-container {
   width: 100%;
   max-width: 500px;
-  overflow-y: hidden;
-  height: 100vh;
+  overflow-y: auto; /* Allow scrolling */
+  height: calc(100vh - 185px); /* Subtract footer height to allow scrolling */
   margin: auto;
   text-align: center;
   background: #1e1e1e;
-  padding-bottom: 185px !important;
-  margin-top: 10px;
+  padding-top: 10px !important; /* Make space for the footer */
+  margin-top: 100px;
   color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
 /* ✅ Profile Picture Section */
@@ -134,7 +135,7 @@ button:hover {
   .profile-container {
     width: 95%;
     padding: 15px;
-    padding-bottom: 150px;
+    /* padding-bottom: 150px; */
   }
 
   .profile-pic {
@@ -162,7 +163,7 @@ button:hover {
   }
 
   .profile-container {
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
   }
 
   .profile-pic {
