@@ -1,40 +1,50 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "sonner"; // ✅ Import Sonner toast
 import "../styles/register.css";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async () => {
     if (!username || !email || !password) {
-      setError("All fields are required.");
+      toast.error("Missing Fields ❌", {
+        description: "All fields are required.",
+      });
       return;
     }
 
     setLoading(true);
-    setError("");
 
     try {
       const response = await axios.post(
-        "https://memeverse-backend.vercel.app/api/auth/register", // ✅ Fixed API URL
+        "https://memeverse-backend.vercel.app/api/auth/register",
         { username, email, password }
       );
 
-      // ✅ Store token and user details
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      // ✅ Success Toast Notification
+      toast.success("Registration Successful ✅", {
+        description: "You can now log in to MemeVerse.",
+      });
 
-      alert("Registration Successful!");
-      navigate("/profile"); // ✅ Redirect to profile after registration
+      setTimeout(() => {
+        navigate("/login"); // ✅ Redirect to login page after success
+      }, 1500);
     } catch (err) {
       console.error("Registration failed:", err);
-      setError(err.response?.data || "Something went wrong.");
+
+      let errorMessage = "Something went wrong.";
+      if (err.response?.data?.error) errorMessage = err.response.data.error;
+
+      // ❌ Error Toast Notification
+      toast.error("Registration Failed ❌", {
+        description: errorMessage,
+      });
     } finally {
       setLoading(false);
     }
@@ -46,7 +56,7 @@ const Register = () => {
       <img src="/meme.jpg" alt="logo" className="logo-register" />
 
       <input
-        className={`input-field ${error ? "input-error" : ""}`}
+        className="input-field"
         type="text"
         placeholder="Username"
         value={username}
@@ -54,22 +64,20 @@ const Register = () => {
       />
 
       <input
-        className={`input-field ${error ? "input-error" : ""}`}
-        type="text"
+        className="input-field"
+        type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
-        className={`input-field ${error ? "input-error" : ""}`}
+        className="input-field"
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-
-      {error && <p className="error-message">{error}</p>}
 
       <button
         className="register-btn"

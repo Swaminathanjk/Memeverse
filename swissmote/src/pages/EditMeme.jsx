@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import uploadToCloudinary from "../utils/uploadToCloudinary";
+import { toast } from "sonner"; // ✅ Import Sonner for toasts
 import "../styles/editMeme.css";
 
 const EditMeme = () => {
@@ -23,12 +24,14 @@ const EditMeme = () => {
         setNewCaption(response.data.caption);
       } catch (error) {
         console.error("Error fetching meme:", error);
+        toast.error("Failed to load meme ❌");
       }
     };
 
     fetchMeme();
   }, [memeId]);
 
+  // ✅ Handle Image Change (Preview)
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -37,7 +40,13 @@ const EditMeme = () => {
     }
   };
 
+  // ✅ Update Meme
   const handleUpdateMeme = async () => {
+    if (!newCaption.trim()) {
+      toast.warning("Please add a caption! ✏️");
+      return;
+    }
+
     setUploading(true);
     let imageUrl = meme.imageUrl;
 
@@ -51,19 +60,34 @@ const EditMeme = () => {
         `https://memeverse-backend.vercel.app/api/memes/${memeId}`,
         { caption: newCaption, imageUrl },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      alert("Meme updated!");
+      toast.success("Meme updated successfully! ✅");
       navigate("/profile");
     } catch (error) {
       console.error("Update failed:", error);
-      alert("Failed to update meme.");
+      toast.error("Failed to update meme ❌");
     } finally {
       setUploading(false);
+    }
+  };
+
+  // ✅ Delete Meme (No Confirmation, Just Toast)
+  const handleDeleteMeme = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `https://memeverse-backend.vercel.app/api/memes/${memeId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      toast.success("Meme deleted successfully! ✅");
+      navigate("/profile"); // Redirect back after deletion
+    } catch (error) {
+      console.error("Delete failed:", error);
+      toast.error("Failed to delete meme ❌");
     }
   };
 
@@ -85,6 +109,11 @@ const EditMeme = () => {
           />
           <button onClick={handleUpdateMeme} disabled={uploading}>
             {uploading ? "Updating..." : "Save Changes"}
+          </button>
+
+          {/* ✅ Delete Meme Button (No Confirmation) */}
+          <button className="delete-btn" onClick={handleDeleteMeme}>
+            Delete Meme
           </button>
         </>
       ) : (

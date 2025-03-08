@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import uploadToCloudinary from "../utils/uploadToCloudinary"; // ✅ Import Cloudinary function
+import uploadToCloudinary from "../utils/uploadToCloudinary";
+import { toast } from "sonner"; // ✅ Import Sonner toast
 import "../styles/upload.css";
 
 const Upload = () => {
@@ -11,38 +12,43 @@ const Upload = () => {
   const [caption, setCaption] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  // Fetch user and set loading state
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
-        setUser(JSON.parse(storedUser)); // Set user info from localStorage
+        setUser(JSON.parse(storedUser));
       }
     }
-    setLoading(false); // Stop loading once token is checked and user is set
+    setLoading(false);
   }, []);
 
-  // Handle image change (preview)
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setImage(file);
-      setPreview(URL.createObjectURL(file)); // Display preview of the selected image
+      setPreview(URL.createObjectURL(file));
     }
   };
 
-  // Handle meme upload
   const handleUpload = async () => {
     if (!image) {
-      alert("Please select an image.");
+      toast.error("No Image Selected ❌", {
+        description: "Please select an image before uploading.",
+      });
+      return;
+    }
+
+    if (!caption.trim()) {
+      toast.info("Add a Caption 📝", {
+        description: "Your meme needs a caption before uploading!",
+      });
       return;
     }
 
     setUploading(true);
 
     try {
-      // Upload image to Cloudinary
       const cloudinaryUrl = await uploadToCloudinary(image);
       if (!cloudinaryUrl) {
         throw new Error("Image upload failed");
@@ -51,8 +57,7 @@ const Upload = () => {
       const token = localStorage.getItem("token");
       const user = JSON.parse(localStorage.getItem("user"));
 
-      // Send the image URL and caption to the backend
-      const response = await axios.post(
+      await axios.post(
         `https://memeverse-backend.vercel.app/api/users/${user._id}/memes`,
         { imageUrl: cloudinaryUrl, caption },
         {
@@ -60,15 +65,21 @@ const Upload = () => {
         }
       );
 
-      alert("Meme uploaded successfully!");
+      // ✅ Success Toast Notification
+      toast.success("Meme Uploaded ✅", {
+        description: "Your meme has been successfully uploaded!",
+      });
 
-      // Reset state after upload
       setImage(null);
       setPreview(null);
       setCaption("");
     } catch (error) {
       console.error("Upload failed:", error);
-      alert("Failed to upload meme.");
+
+      // ❌ Error Toast Notification
+      toast.error("Upload Failed ❌", {
+        description: "Failed to upload meme. Please try again.",
+      });
     } finally {
       setUploading(false);
     }

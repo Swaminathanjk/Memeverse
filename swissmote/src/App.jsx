@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "sonner"; // ✅ Import Sonner for toast notifications
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Explorer from "./pages/Explorer";
@@ -18,6 +19,9 @@ function App() {
   return (
     <Router>
       <div className="app-container">
+        {/* ✅ Toast Notifications Enabled */}
+        <Toaster position="top-right" />
+
         <Header />
         <main className="main-content">
           <Routes>

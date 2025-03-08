@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import uploadToCloudinary from "../utils/uploadToCloudinary";
+import { toast } from "sonner"; // ✅ Import Sonner for notifications
 import "../styles/profile.css";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [memes, setMemes] = useState([]);
   const [bio, setBio] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  const [profilePic, setProfilePic] = useState("/default-avatar.jpg");
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
 
@@ -50,7 +51,6 @@ const Profile = () => {
 
   // ✅ Combined Profile Update Function (Bio & Picture)
   const handleProfileUpdate = async (event) => {
-    event.preventDefault();
     if (!user) return;
 
     setUpdating(true);
@@ -64,6 +64,14 @@ const Profile = () => {
 
     try {
       const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Authentication Error ❌", {
+          description: "You're not logged in. Please log in again.",
+        });
+        return;
+      }
+
       const response = await axios.put(
         `https://memeverse-backend.vercel.app/api/users/${user._id}/update-profile`,
         { bio, profilePic: imageUrl },
@@ -71,17 +79,74 @@ const Profile = () => {
       );
 
       const updatedUser = response.data;
-
-      // ✅ Update React state & localStorage
       setUser(updatedUser);
       setProfilePic(updatedUser.profilePic);
       setBio(updatedUser.bio);
       localStorage.setItem("user", JSON.stringify(updatedUser));
 
-      alert("Profile updated successfully!");
+      toast.success("Profile Updated ✅", {
+        description: "Your profile has been updated successfully!",
+      });
     } catch (error) {
       console.error("Profile update failed:", error);
-      alert("Failed to update profile.");
+
+      const errorMessage =
+        error.response?.data?.message ||
+        "Something went wrong while updating your profile.";
+
+      toast.error("Update Failed ❌", {
+        description: errorMessage,
+      });
+
+      if (error.response?.status === 403) {
+        toast.error("Session Expired", {
+          description: "Please log in again.",
+        });
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/login"; // ✅ Redirect to login
+      }
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  // ✅ Remove Profile Picture (Reset to Default)
+  const handleRemoveProfilePic = async () => {
+    if (!user) return;
+
+    setUpdating(true);
+    const defaultPic = "/default-avatar.jpg"; // ✅ Default avatar
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Authentication Error ❌", {
+          description: "You're not logged in. Please log in again.",
+        });
+        return;
+      }
+
+      const response = await axios.put(
+        `https://memeverse-backend.vercel.app/api/users/${user._id}/update-profile`,
+        { bio, profilePic: defaultPic },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const updatedUser = response.data;
+      setUser(updatedUser);
+      setProfilePic(defaultPic);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      toast.success("Profile Picture Removed ✅", {
+        description: "Your profile picture has been reset to default.",
+      });
+    } catch (error) {
+      console.error("Failed to remove profile picture:", error);
+      toast.error("Error ❌", {
+        description: "Failed to remove profile picture.",
+      });
     } finally {
       setUpdating(false);
     }
@@ -95,18 +160,28 @@ const Profile = () => {
         <>
           <h1>{user.username}'s Profile</h1>
 
-          {/* ✅ Profile Picture Edit */}
+          {/* ✅ Profile Picture Edit (Click to Upload) */}
           <label htmlFor="profile-pic-upload" className="profile-pic-label">
             <img src={profilePic} alt="Profile" className="profile-pic" />
           </label>
-          {/* ✅ Hidden Input - Only visible when clicking the profile picture */}
           <input
             type="file"
             id="profile-pic-upload"
             accept="image/*"
             onChange={handleProfileUpdate}
-            className="hidden-input" // This class will hide the input
+            className="hidden-input"
           />
+
+          {/* ✅ Remove Profile Picture Button */}
+          {profilePic !== "/default-avatar.jpg" && (
+            <button
+              className="remove-pic-btn"
+              onClick={handleRemoveProfilePic}
+              disabled={updating}
+            >
+              {updating ? "Removing..." : "Remove Profile Picture"}
+            </button>
+          )}
 
           {/* ✅ Bio Update */}
           <input
